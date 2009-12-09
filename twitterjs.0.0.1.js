@@ -64,7 +64,7 @@
       
       params = params || {};
       
-      var user_cb = params.callback || function(data, meta){alert("do something by default: " + data);};
+      var user_cb = params["callback"] || function(data, meta){alert("do something by default: " + data);};
       var _this = this;
       var _options = options;
       var cb_id = $["_callbacks"].push(function(data) {
@@ -87,7 +87,7 @@
         }
       }) - 1;
       
-      params.callback = _this._name+"._callbacks['"+cb_id+"']";
+      params["callback"] = _this._name+"._callbacks['"+cb_id+"']";
       if(options.takes_params) {
         var params_array = [];
         for(var param in params) {
@@ -100,7 +100,7 @@
         }
       }
       else {
-        q_string = "?callback="+encodeURIComponent(params.callback);
+        q_string = "?callback="+encodeURIComponent(params["callback"]);
       }
       
       url += q_string;
