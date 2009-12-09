@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <script src="twitterjs.closure.advanced.0.0.1.js" type="text/javascript"></script>
+  </head>
+  
+  <body>
+  
+  <script type="text/javascript">
+    var t = new TWITTER();
+    //t.search.search({q:"tiger woods", rpp:20, callback:function(data){alert("hi: " + data.length)}});
+    //var tjs = new TWITTER();
+    //tjs.statuses.retweets_of_me();
+
+    //t.trends.trends({callback:function(data, meta) { alert(meta.as_of);}});
+    t.trends.current();
+    //t.trends.daily();
+    //t.trends.weekly();
+    //t.statuses.public_timeline();
+    //t.statuses.show({id:"2000000000"});
+    /*t.statuses.user_timeline({id:"jeffreytierney"});*/
+    
+    //t.statuses.friends({id:"jeffreytierney"});
+    //t.statuses.followers({id:"jeffreytierney"});
+    //t.lists.list_statuses({"user":"tikkers","list_id":"kgbweb"});
+    
+    //t.friendships.show({"source_screen_name":"jeffreytierney","target_screen_name":"chadsnuts"});
+    //t.friends.ids({"id":"jeffreytierney"});
+    //t.followers.ids({"id":"jeffreytierney"});
+    //t.account.rate_limit_status();
+    //t.favorites.favorites({id:"jeffreytierney"});
+    //t.users.show({screen_name:"jeffreytierney"});
+    
+    //setTimeout(function() {for(var i=0; i<TWITTER._callbacks.length; i++) {t._log(TWITTER._callbacks[i]);}}, 10000);
+  </script>
+  </body>
+
+
+</html>
