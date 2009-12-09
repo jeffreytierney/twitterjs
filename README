@@ -1,0 +1,9 @@
+The Code:
+(function(_name, _ns) {
+...
+})("TWITTER");
+
+By default, the class that gets created is named TWITTER.
+Rather than just assuming that you dont already have something named TWITTER that exists in the global namespace, however, this name is easily overrideable.
+To call it something other than TWITTER, just change the string that is passed in to whatever you want the class to be named.  We'll take care of the rest.
+(If you do change the name, however, just make sure that anywhere the documentation says "new TWITTER();", you change your code accordingly to reflect the new name);
