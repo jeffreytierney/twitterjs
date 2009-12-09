@@ -1,36 +1,216 @@
 <html>
   <head>
-    <script src="twitterjs.closure.advanced.0.0.1.js" type="text/javascript"></script>
+    <script src="twitterjs.0.0.1.js" type="text/javascript"></script>
+    <script src="json2.js" type="text/javascript"></script>
   </head>
   
   <body>
-  
-  <script type="text/javascript">
-    var t = new TWITTER();
-    //t.search.search({q:"tiger woods", rpp:20, callback:function(data){alert("hi: " + data.length)}});
-    //var tjs = new TWITTER();
-    //tjs.statuses.retweets_of_me();
+    <h1>TwitterJS API Test</h1>
+    
+    <p>
+      <label for="btn_search">TWITTER.search.search();</label><br/>
+      <label for="search_q">Query:</label><input type="text" id="search_q" /><br/>
+      <input type="button" id="btn_search" value="search/search">
+    </p>
+    <br/>
+    <p>
+      <label for="btn_trends">TWITTER.trends.trends();</label><br/>
+      <input type="button" id="btn_trends" value="trends/trends">
+    </p>
+    <p>
+      <label for="btn_trends_current">TWITTER.trends.current();</label><br/>
+      <input type="button" id="btn_trends_current" value="trends/current">
+    </p>
+    <p>
+      <label for="btn_trends_daily">TWITTER.trends.daily();</label><br/>
+      <input type="button" id="btn_trends_daily" value="trends/daily">
+    </p>
+    <p>
+      <label for="btn_trends_weekly">TWITTER.trends.weekly();</label><br/>
+      <input type="button" id="btn_trends_weekly" value="trends/weekly">
+    </p>
+    <br/>
+    <p>
+      <label for="btn_public_timeline">TWITTER.statuses.public_timeline();</label><br/>
+      <input type="button" id="btn_public_timeline" value="statuses/public_timeline">
+    </p>
+    <p>
+      <label for="btn_user_timeline">TWITTER.statuses.user_timeline();</label><br/>
+      <label for="user_timeline_id">User ID</label><input type="text" id="user_timeline_id" /><br/>
+      <input type="button" id="btn_user_timeline" value="statuses/user_timeline">
+    </p>
+    <p>
+      <label for="btn_statuses_show">TWITTER.statuses.show();</label><br/>
+      <label for="statuses_show_id">User ID</label><input type="text" id="statuses_show_id" /><br/>
+      <input type="button" id="btn_statuses_show" value="statuses/show">
+    </p>
+    <p>
+      <label for="btn_statuses_friends">TWITTER.statuses.friends();</label><br/>
+      <label for="statuses_friends_id">User ID</label><input type="text" id="statuses_friends_id" /><br/>
+      <input type="button" id="btn_statuses_friends" value="statuses/friends">
+    </p>
+    <p>
+      <label for="btn_statuses_followers">TWITTER.statuses.followers();</label><br/>
+      <label for="statuses_followers_id">User ID</label><input type="text" id="statuses_followers_id" /><br/>
+      <input type="button" id="btn_statuses_followers" value="statuses/followers">
+    </p>
+    <br/>
+    <p>
+      <label for="btn_users_show">TWITTER.users.show();</label><br/>
+      <label for="users_show_id">User ID</label><input type="text" id="users_show_id" /><br/>
+      <input type="button" id="btn_users_show" value="users/show">
+    </p>
+    <br/>
+    <p>
+      <label for="btn_lists_list_statuses">TWITTER.lists.list_statuses();</label><br/>
+      <label for="lists_list_statuses_user_id">User ID</label><input type="text" id="lists_list_statuses_user_id" /><br/>
+      <label for="lists_list_statuses_list_id">List ID</label><input type="text" id="lists_list_statuses_list_id" /><br/>
+      <input type="button" id="btn_lists_list_statuses" value="lists/list_statuses">
+    </p>
+    <br/>
+    <p>
+      <label for="btn_friendships_show">TWITTER.friendships.show();</label><br/>
+      <label for="friendships_show_source">Source User ID</label><input type="text" id="friendships_show_source" /><br/>
+      <label for="friendships_show_target">Target User ID</label><input type="text" id="friendships_show_target" /><br/>
+      <input type="button" id="btn_friendships_show" value="friendships/show">
+    </p>
+    <br/>
+    <p>
+      <label for="btn_friends_ids">TWITTER.friends.ids();</label><br/>
+      <label for="friends_ids_user">User ID</label><input type="text" id="friends_ids_user" /><br/>
+      <input type="button" id="btn_friends_ids" value="friends/ids">
+    </p>
+    <br/>
+    <p>
+      <label for="btn_followers_ids">TWITTER.followers.ids();</label><br/>
+      <label for="followers_ids_user">User ID</label><input type="text" id="followers_ids_user" /><br/>
+      <input type="button" id="btn_followers_ids" value="followers/ids">
+    </p>
+    <br/>
+    <p>
+      <label for="btn_favorites_favorites">TWITTER.favorites.favorites();</label><br/>
+      <label for="favorites_favorites_user">User ID</label><input type="text" id="favorites_favorites_user" /><br/>
+      <input type="button" id="btn_favorites_favorites" value="favorites/favorites">
+    </p>
+    <br/>
+    <p>
+      <label for="btn_account_rate_limit_status">TWITTER.account.rate_limit_status();</label><br/>
+      <input type="button" id="btn_account_rate_limit_status" value="account/rate_limit_status">
+    </p>
 
-    //t.trends.trends({callback:function(data, meta) { alert(meta.as_of);}});
-    t.trends.current();
-    //t.trends.daily();
-    //t.trends.weekly();
-    //t.statuses.public_timeline();
-    //t.statuses.show({id:"2000000000"});
-    /*t.statuses.user_timeline({id:"jeffreytierney"});*/
     
-    //t.statuses.friends({id:"jeffreytierney"});
-    //t.statuses.followers({id:"jeffreytierney"});
-    //t.lists.list_statuses({"user":"tikkers","list_id":"kgbweb"});
+    <div id="results" style="position: fixed; top:0px; right: 0px; width: 60%; height: 100%; overflow: auto;">
+    </div> 
     
-    //t.friendships.show({"source_screen_name":"jeffreytierney","target_screen_name":"chadsnuts"});
-    //t.friends.ids({"id":"jeffreytierney"});
-    //t.followers.ids({"id":"jeffreytierney"});
-    //t.account.rate_limit_status();
-    //t.favorites.favorites({id:"jeffreytierney"});
-    //t.users.show({screen_name:"jeffreytierney"});
     
-    //setTimeout(function() {for(var i=0; i<TWITTER._callbacks.length; i++) {t._log(TWITTER._callbacks[i]);}}, 10000);
+    <script type="text/javascript">
+      
+      function testCallback(data, meta) {
+        var results = document.getElementById("results");
+        while (results.hasChildNodes()) {
+          results.removeChild(results.firstChild);
+        }
+        
+        
+        results.innerHTML = (meta ? "<h2>Meta:</h2>"+JSON.stringify(meta) : "") + "<br/><br/><h2>Data:</h2>" + JSON.stringify(data);
+        //results.innerHTML = "<h2>Data:</h2>" + JSON.stringify(data);
+      }
+    
+      var t = new TWITTER();
+      
+      
+      document.getElementById("btn_search").onclick = function() {
+        t.search.search({q:document.getElementById("search_q").value, callback:testCallback});
+      };
+
+      document.getElementById("btn_trends").onclick = function() {
+        t.trends.trends({callback:testCallback});
+      };
+
+      document.getElementById("btn_trends_current").onclick = function() {
+        t.trends.current({callback:testCallback});
+      };
+      
+      document.getElementById("btn_trends_daily").onclick = function() {
+        t.trends.daily({callback:testCallback});
+      };
+      
+      document.getElementById("btn_trends_weekly").onclick = function() {
+        t.trends.weekly({callback:testCallback});
+      };
+
+      document.getElementById("btn_public_timeline").onclick = function() {
+        t.statuses.public_timeline({callback:testCallback});
+      };
+      
+      document.getElementById("btn_user_timeline").onclick = function() {
+        t.statuses.user_timeline({id:document.getElementById("user_timeline_id").value, callback:testCallback});
+      };
+
+      document.getElementById("btn_statuses_show").onclick = function() {
+        t.statuses.show({id:document.getElementById("user_timeline_id").value, callback:testCallback});
+      };
+
+      document.getElementById("btn_statuses_friends").onclick = function() {
+        t.statuses.friends({id:document.getElementById("statuses_friends_id").value, callback:testCallback});
+      };
+
+      document.getElementById("btn_statuses_followers").onclick = function() {
+        t.statuses.followers({id:document.getElementById("statuses_followers_id").value, callback:testCallback});
+      };
+
+      document.getElementById("btn_users_show").onclick = function() {
+        t.users.show({id:document.getElementById("users_show_id").value, callback:testCallback});
+      };
+
+      document.getElementById("btn_lists_list_statuses").onclick = function() {
+        t.lists.list_statuses({user:document.getElementById("lists_list_statuses_user_id").value, list_id:document.getElementById("lists_list_statuses_list_id").value, callback:testCallback});
+      };
+
+      document.getElementById("btn_friendships_show").onclick = function() {
+        t.friendships.show({source_screen_name:document.getElementById("friendships_show_source").value, target_screen_name:document.getElementById("friendships_show_target").value, callback:testCallback});
+      };
+
+      document.getElementById("btn_friends_ids").onclick = function() {
+        t.friends.ids({id:document.getElementById("friends_ids_user").value, callback:testCallback});
+      };
+
+      document.getElementById("btn_followers_ids").onclick = function() {
+        t.followers.ids({id:document.getElementById("followers_ids_user").value, callback:testCallback});
+      };
+
+      document.getElementById("btn_favorites_favorites").onclick = function() {
+        t.favorites.favorites({id:document.getElementById("favorites_favorites_user").value, callback:testCallback});
+      };
+
+      document.getElementById("btn_account_rate_limit_status").onclick = function() {
+        t.account.rate_limit_status({callback:testCallback});
+      };
+      
+      //t.search.search({q:"tiger woods", rpp:20, callback:function(data){alert("hi: " + data.length)}});
+      //var tjs = new TWITTER();
+      //tjs.statuses.retweets_of_me();
+  
+      //t.trends.trends({callback:function(data, meta) { alert(meta.as_of);}});
+      //t.trends.current();
+      //t.trends.daily();
+      //t.trends.weekly();
+      //t.statuses.public_timeline();
+      //t.statuses.show({id:"2000000000"});
+      /*t.statuses.user_timeline({id:"jeffreytierney"});*/
+      
+      //t.statuses.friends({id:"jeffreytierney"});
+      //t.statuses.followers({id:"jeffreytierney"});
+      //t.lists.list_statuses({"user":"tikkers","list_id":"kgbweb"});
+      
+      //t.friendships.show({"source_screen_name":"jeffreytierney","target_screen_name":"chadsnuts"});
+      //t.friends.ids({"id":"jeffreytierney"});
+      //t.followers.ids({"id":"jeffreytierney"});
+      //t.account.rate_limit_status();
+      //t.favorites.favorites({id:"jeffreytierney"});
+      //t.users.show({screen_name:"jeffreytierney"});
+      
+      //setTimeout(function() {for(var i=0; i<TWITTER._callbacks.length; i++) {t._log(TWITTER._callbacks[i]);}}, 10000);
   </script>
   </body>
 

@@ -141,7 +141,8 @@
           url:"http://search.twitter.com/search.format", 
           required:{"q":0},
           takes_params: true,
-          root: "results"
+          root: "results",
+          meta: ["since_id","max_id","refresh_url","results_per_page","next_page","completed_in","page","query"]
         }
       },
       "trends": {
@@ -208,8 +209,9 @@
       "users": {
         "show": {
           auth_req: false,
-          url:"http://twitter.com/users/show.format",
-          takes_params: true
+          url:"http://twitter.com/users/show/:id.format",
+          takes_params: true,
+          required:{"id":1}
         }
       },
       "lists": {
