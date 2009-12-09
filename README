@@ -4,6 +4,19 @@ The Code:
 })("TWITTER");
 
 By default, the class that gets created is named TWITTER.
+
 Rather than just assuming that you dont already have something named TWITTER that exists in the global namespace, however, this name is easily overrideable.
+
 To call it something other than TWITTER, just change the string that is passed in to whatever you want the class to be named.  We'll take care of the rest.
+
 (If you do change the name, however, just make sure that anywhere the documentation says "new TWITTER();", you change your code accordingly to reflect the new name);
+
+You also may have noticed the second param that is not being used by default (_ns).  If you want to add this class into an already existing object, you will use that param.  You would still use the first param (_name) to declare what you would want the name of the class to be, but you would use the second param to pass in a *STRING* representation of where you want the class to be placed within the existing object you want to add it to.
+for example, if you already have a defined library like:
+
+var MyAwesomeLibrary = { thatDoesntHave:{ twitterYet : {} } };
+
+You could add this class into that library by modifying the last section as follows:
+(function(_name, _ns) {
+...
+})("TWITTER", "MyAwesomeLibrary.thatDoesntHave.twitterYet"); // you need the quotes... this param has to be a string.
