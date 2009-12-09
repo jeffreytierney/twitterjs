@@ -20,3 +20,48 @@ You could add this class into that library by modifying the last section as foll
 (function(_name, _ns) {
 ...
 })("TWITTER", "MyAwesomeLibrary.thatDoesntHave.twitterYet"); // you need the quotes... this param has to be a string.
+
+
+Once you have created an instance of your class, you will be able to call the following methods:
+(see the pages that relate to each corresponding method ( http://apiwiki.twitter.com/Twitter-API-Documentation ) for the possible paramters to be used in each call, and the response issued from each one.
+
+some notes...
+whenever there is an option of using id, user_id, or screen_name as a param, use the param named "id" (this can usually accept either the user_id or screen_name)
+your callback function can be an anonymous function created inline in the param object passed to each function,  it will be wrapped, stored in a global callback cache (on the object already created... no further global namespace pollution) and the appropriate string will be added to the url to invoke your function on the data loading, but should use the param name "callback" regardless of if you use a named function or an anonymous function.
+the callback function takes 2 params... data, which will store the meat of the response, and meta, which may contain additional info returned with the response if there is any
+
+var t = new TWITTER();
+
+t.search.search({q:"tiger woods", callback:function(data, meta) { /* do something here */ }});
+
+t.trends.trends({callback:function(data, meta) { /* do something here */ }});
+
+t.trends.current({callback:function(data, meta) { /* do something here */ }});
+
+t.trends.daily({callback:function(data, meta) { /* do something here */ }});
+
+t.trends.weekly({callback:function(data, meta) { /* do something here */ }});
+
+t.statuses.public_timeline({callback:function(data, meta) { /* do something here */ }});
+
+t.statuses.user_timeline({id:"jeffreytierney", callback:function(data, meta) { /* do something here */ }});
+
+t.statuses.show({id:"jeffreytierney", callback:function(data, meta) { /* do something here */ }});
+
+t.statuses.friends({id:"jeffreytierney", callback:function(data, meta) { /* do something here */ }});
+
+t.statuses.followers({id:"jeffreytierney", callback:function(data, meta) { /* do something here */ }});
+
+t.users.show({id:"jeffreytierney", callback:function(data, meta) { /* do something here */ }});
+
+t.lists.list_statuses({user:"jeffreytierney", list_id:document.getElementById("lists_list_statuses_list_id").value, callback:function(data, meta) { /* do something here */ }});
+
+t.friendships.show({source_screen_name:"jeffreytierney", target_screen_name:"yourscreenname, callback:function(data, meta) { /* do something here */ }});
+
+t.friends.ids({id:"jeffreytierney", callback:function(data, meta) { /* do something here */ }});
+
+t.followers.ids({id:"jeffreytierney", callback:function(data, meta) { /* do something here */ }});
+
+t.favorites.favorites({id:"jeffreytierney", callback:function(data, meta) { /* do something here */ }});
+
+t.account.rate_limit_status({callback:function(data, meta) { /* do something here */ }});
