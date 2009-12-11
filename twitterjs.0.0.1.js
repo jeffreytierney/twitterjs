@@ -283,7 +283,7 @@
         }
       },
       "friends": {
-        ids: {
+        "ids": {
           auth_req: false,
           url:"http://twitter.com/friends/ids/:id.format",
           takes_params: true,
