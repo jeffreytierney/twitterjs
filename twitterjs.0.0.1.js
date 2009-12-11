@@ -65,29 +65,39 @@
       params = params || {};
       
       var user_cb = params["callback"] || function(data, meta){alert("do something by default: " + data);};
+      var user_error = params["error"] || function(data, meta){alert("something errored out");};
       var _this = this;
       var _options = options;
-      var cb_id = $["_callbacks"].push(function(data) {
-        var meta = {};
-        if(_options.meta) {
-          for(var i=0, len=_options.meta.length; i<len; i++) {
-            if(data.hasOwnProperty(_options.meta[i])) {
-              meta[_options.meta[i]] = data[_options.meta[i]];
+      var cb_id = $["_callbacks"].push({"success":function(data) {
+          var meta = {};
+          if(_options.meta) {
+            for(var i=0, len=_options.meta.length; i<len; i++) {
+              if(data.hasOwnProperty(_options.meta[i])) {
+                meta[_options.meta[i]] = data[_options.meta[i]];
+              }
             }
           }
-        }
+          
+          if(_options.root && data.hasOwnProperty(_options.root)) data = data[_options.root];
+          if(!data.error) {
+            try {
+              user_cb(data, meta);
+            }
+            catch(ex) {
+              user_error();
+            }
+          }
+          else {
+            user_error(data.error);
+          }
+        _this._gc_jsonp(cb_id);
         
-        if(_options.root && data.hasOwnProperty(_options.root)) data = data[_options.root];
-        user_cb(data, meta);
-        eval(_this._name)["_callbacks"][cb_id] = null;
-        var script = document.getElementById(_this._name+"_script_"+cb_id);
-        if(script) {
-          script.parentNode.removeChild(script);
-          script = null;
-        }
-      }) - 1;
+      },"error":function() {
+        
+        user_error();
+      }}) - 1;
       
-      params["callback"] = _this._name+"._callbacks['"+cb_id+"']";
+      params["callback"] = _this._name+"._callbacks['"+cb_id+"'].success";
       if(options.takes_params) {
         var params_array = [];
         for(var param in params) {
@@ -115,7 +125,7 @@
     _log: function(msg) {
       try{
       if(console) console.log(msg);
-      }catch(ex) { alert(msg); }
+      }catch(ex) { /*alert(msg);*/ }
     },
     
     _jsonp_call: function(url, cb_id) {
@@ -124,15 +134,58 @@
       s.setAttribute("src", url);
       s.setAttribute("type", "text/javascript");
       s.setAttribute("id", this._name+"_script_"+cb_id);
+      
+      var head = document.getElementsByTagName("head")[0];
+      var error = $["_callbacks"][cb_id].error;
+      // Attach handlers for all browsers
+      var _cb_id = cb_id;
+      var _this = this;
+      
+      s.onload = s.onreadystatechange = function(){
+        if ( !$["_callbacks"][_cb_id].done && (!this.readyState ||
+          this.readyState == "loaded" || this.readyState == "complete") ) {
+          var cb_id = _cb_id;
+          setTimeout(function() {
+            if(!$["_callbacks"][cb_id].done) {
+              _this._gc_jsonp(cb_id);
+              error();
+            }
+          }, 100);
+        }
+      };
+      
+      s.onerror = function() {
+        _this._gc_jsonp(_cb_id);
+        error();
+      }
 
-      document.getElementsByTagName("head")[0].appendChild(s);
+      head.appendChild(s);
+      
+      $["_callbacks"][cb_id].timer = setTimeout(function() {
+        $["_callbacks"][_cb_id].error();
+        _this._gc_jsonp(_cb_id, true);
+      }, this.options.timeout);
       
       return this;
     },
     
+    _gc_jsonp: function(cb_id, timeout) {
+      $["_callbacks"][cb_id].done = true;
+      if(!timeout) clearTimeout($["_callbacks"][cb_id].timer)
+      $["_callbacks"][cb_id].success = $["_callbacks"][cb_id].error = timeout ? function() {} : null;
+      var script = document.getElementById(this._name+"_script_"+cb_id);
+      if(script) {
+        script.onload = script.onreadystatechange =script.onerror = null;
+        script.parentNode.removeChild(script);
+        script = null;
+      }
+      
+    },
+    
     options:{
       format: "json",
-      proxy: false
+      proxy: false,
+      timeout: 5000
     },
     _functions: {
       "search": {
