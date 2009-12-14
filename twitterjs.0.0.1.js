@@ -64,8 +64,8 @@
       
       params = params || {};
       
-      var user_cb = params["callback"] || function(data, meta){alert("do something by default: " + data);};
-      var user_error = params["error"] || function(data, meta){alert("something errored out");};
+      var user_cb = params["callback"] || function(data, meta){/*alert("do something by default: " + data);*/};
+      var user_error = params["error"] || function(data, meta){/*alert("something errored out");*/};
       var _this = this;
       var _options = options;
       var scope = params["cb_scope"] || window;
