@@ -25,6 +25,10 @@ You could add this class into that library by modifying the last section as foll
 Once you have created an instance of your class, you will be able to call the following methods:
 (see the pages that relate to each corresponding method ( http://apiwiki.twitter.com/Twitter-API-Documentation ) for the possible paramters to be used in each call, and the response issued from each one.
 
+additional parameters available to every method:
+error: a function that will get executed on an error in requesting the link (timeout, 404, etc);
+cb_scope: if you would like your callback or error functions to be called with a scope other than window (default) pass that object in to the function as the cb_scope parameter, and that object will be used as the scope of the call: (callback.call(cb_scope);)
+
 some notes...
 you dont need json2.js.. .that is only used in the test html page in order to stringify the JSON results for output.
 the responses from the search and trends api calls have the array of results buried one level deep in the response object.  this is normalized in the way the data is preprocessed before being handed off to the callback function that you define and pass in.  You can always expect "data" that is passed in to the function to be the actual meat of the response.  In these methods, any other info that is contained in the response, other than the meat, is added into an object that is accessible via the second "meta" param to the function.
