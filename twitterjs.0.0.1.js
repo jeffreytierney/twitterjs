@@ -68,6 +68,8 @@
       var user_error = params["error"] || function(data, meta){alert("something errored out");};
       var _this = this;
       var _options = options;
+      var scope = params["cb_scope"] || window;
+      
       var cb_id = $["_callbacks"].push({"success":function(data) {
           var meta = {};
           if(_options.meta) {
@@ -81,20 +83,21 @@
           if(_options.root && data.hasOwnProperty(_options.root)) data = data[_options.root];
           if(!data.error) {
             try {
-              user_cb(data, meta);
+              user_cb.call(scope, data, meta);
             }
             catch(ex) {
-              user_error();
+              _this._log(ex.message)
+              user_error.call(scope);
             }
           }
           else {
-            user_error(data.error);
+            user_error.call(scope, data.error);
           }
         _this._gc_jsonp(cb_id);
         
       },"error":function() {
         
-        user_error();
+        user_error.call(scope);
       }}) - 1;
       
       params["callback"] = _this._name+"._callbacks['"+cb_id+"'].success";

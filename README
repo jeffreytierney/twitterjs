@@ -26,6 +26,7 @@ Once you have created an instance of your class, you will be able to call the fo
 (see the pages that relate to each corresponding method ( http://apiwiki.twitter.com/Twitter-API-Documentation ) for the possible paramters to be used in each call, and the response issued from each one.
 
 some notes...
+you dont need json2.js.. .that is only used in the test html page in order to stringify the JSON results for output.
 the responses from the search and trends api calls have the array of results buried one level deep in the response object.  this is normalized in the way the data is preprocessed before being handed off to the callback function that you define and pass in.  You can always expect "data" that is passed in to the function to be the actual meat of the response.  In these methods, any other info that is contained in the response, other than the meat, is added into an object that is accessible via the second "meta" param to the function.
 whenever there is an option of using id, user_id, or screen_name as a param, use the param named "id" (this can usually accept either the user_id or screen_name)
 your callback function can be an anonymous function created inline in the param object passed to each function,  it will be wrapped, stored in a global callback cache (on the object already created... no further global namespace pollution) and the appropriate string will be added to the url to invoke your function on the data loading, but should use the param name "callback" regardless of if you use a named function or an anonymous function.
