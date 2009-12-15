@@ -279,7 +279,7 @@
         }
       },
       "friendships": {
-        show: {
+        "show": {
           auth_req: false,
           url:"http://twitter.com/friendships/show.format",
           takes_params: true
