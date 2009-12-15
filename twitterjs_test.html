@@ -16,14 +16,14 @@
     <h1>TwitterJS API Test</h1>
     
     <p>
-      <label for="btn_search">TWITTER.search.search();</label><br/>
+      <label for="btn_search">TWITTER.search();</label><br/>
       <label for="search_q">Query:</label><input type="text" id="search_q" /><br/>
-      <input type="button" id="btn_search" value="search/search">
+      <input type="button" id="btn_search" value="search">
     </p>
     <br/>
     <p>
-      <label for="btn_trends">TWITTER.trends.trends();</label><br/>
-      <input type="button" id="btn_trends" value="trends/trends">
+      <label for="btn_trends">TWITTER.trends();</label><br/>
+      <input type="button" id="btn_trends" value="trends">
     </p>
     <p>
       <label for="btn_trends_current">TWITTER.trends.current();</label><br/>
@@ -96,9 +96,9 @@
     </p>
     <br/>
     <p>
-      <label for="btn_favorites_favorites">TWITTER.favorites.favorites();</label><br/>
+      <label for="btn_favorites_favorites">TWITTER.favorites();</label><br/>
       <label for="favorites_favorites_user">User ID</label><input type="text" id="favorites_favorites_user" /><br/>
-      <input type="button" id="btn_favorites_favorites" value="favorites/favorites">
+      <input type="button" id="btn_favorites_favorites" value="favorites">
     </p>
     <br/>
     <p>
@@ -128,11 +128,11 @@
       var t = new TWITTER();
       
       document.getElementById("btn_search").onclick = function() {
-        t.search.search({q:document.getElementById("search_q").value, callback:testCallback});
+        t.search({q:document.getElementById("search_q").value, callback:testCallback});
       };
 
       document.getElementById("btn_trends").onclick = function() {
-        t.trends.trends({callback:testCallback});
+        t.trends({callback:testCallback});
       };
 
       document.getElementById("btn_trends_current").onclick = function() {
@@ -188,7 +188,7 @@
       };
 
       document.getElementById("btn_favorites_favorites").onclick = function() {
-        t.favorites.favorites({id:document.getElementById("favorites_favorites_user").value, callback:testCallback});
+        t.favorites({id:document.getElementById("favorites_favorites_user").value, callback:testCallback});
       };
 
       document.getElementById("btn_account_rate_limit_status").onclick = function() {

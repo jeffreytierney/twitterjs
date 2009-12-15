@@ -38,9 +38,9 @@ the callback function takes 2 params... data, which will store the meat of the r
 
 var t = new TWITTER();
 
-t.search.search({q:"tiger woods", callback:function(data, meta) { /* do something here */ }});
+t.search({q:"tiger woods", callback:function(data, meta) { /* do something here */ }});
 
-t.trends.trends({callback:function(data, meta) { /* do something here */ }});
+t.trends({callback:function(data, meta) { /* do something here */ }});
 
 t.trends.current({callback:function(data, meta) { /* do something here */ }});
 
@@ -68,6 +68,6 @@ t.friends.ids({id:"jeffreytierney", callback:function(data, meta) { /* do someth
 
 t.followers.ids({id:"jeffreytierney", callback:function(data, meta) { /* do something here */ }});
 
-t.favorites.favorites({id:"jeffreytierney", callback:function(data, meta) { /* do something here */ }});
+t.favorites({id:"jeffreytierney", callback:function(data, meta) { /* do something here */ }});
 
 t.account.rate_limit_status({callback:function(data, meta) { /* do something here */ }});

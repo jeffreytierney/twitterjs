@@ -24,10 +24,13 @@
         $.prototype[ns] = {};
         
         for(var func in funcs) (function(func, options) {
-          $.prototype[ns][func] = function(params) {
+          //$.prototype[ns][func] = function(params) {
+          var _func = function(params) {
             options.url = options.url.replace(".format", "."+_this.options.format);
             $.prototype._make_request.call(_this, ns, func, options, params);
           }
+          if(func == ns) { $.prototype[ns] = _func; }
+          else { $.prototype[ns][func] = _func; }
         })(func, funcs[func]);
       })(ns, namespaces[ns]);
       
