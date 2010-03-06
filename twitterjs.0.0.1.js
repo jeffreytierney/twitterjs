@@ -103,7 +103,7 @@
         user_error.call(scope);
       }}) - 1;
       
-      $["_callbacks"]['_'+cb_id] = $._callbacks[cb_id];
+      $["_callbacks"]['_'+cb_id] = $["_callbacks"][cb_id];
       //params["callback"] = _this._name+"._callbacks["+cb_id+"].success";
       params["callback"] = _this._name+"._callbacks._"+cb_id+".success";
       if(options.takes_params) {
