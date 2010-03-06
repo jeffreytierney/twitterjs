@@ -103,7 +103,9 @@
         user_error.call(scope);
       }}) - 1;
       
-      params["callback"] = _this._name+"._callbacks['"+cb_id+"'].success";
+      $._callbacks['_'+cb_id] = $._callbacks[cb_id];
+      //params["callback"] = _this._name+"._callbacks["+cb_id+"].success";
+      params["callback"] = _this._name+"._callbacks._"+cb_id+".success";
       if(options.takes_params) {
         var params_array = [];
         for(var param in params) {
@@ -122,7 +124,7 @@
       url += q_string;
       
       this._log(url);
-      
+      //this._log(TWITTER._callbacks[cb_id].success.toString());
       this._jsonp_call(url, cb_id);
       
       return this;
@@ -185,7 +187,7 @@
         script.parentNode.removeChild(script);
         script = null;
       }
-      
+      delete $["_callbacks"]["_"+cb_id];
     },
     
     options:{
