@@ -1,15 +1,15 @@
 (function(_name, _ns) {
   var _ns_string = _ns || false;
   _ns = _ns ? eval(_ns) : window;
-  
+
   var $;
   _ns[_name] = $ = function(params) {
     this._init(params);
   }
   _name = _ns_string ? _ns_string+"."+_name : _name;
-  
+
   $["_callbacks"] = [];
-  
+
   $.prototype = {
     _init: function(params) {
       this._initializeFunctions();
@@ -18,11 +18,11 @@
     _initializeFunctions: function() {
       var namespaces = this._functions;
       var _this = this;
-      
+
       for (var ns in namespaces) (function(ns, funcs) {
-        
+
         $.prototype[ns] = {};
-        
+
         for(var func in funcs) (function(func, options) {
           //$.prototype[ns][func] = function(params) {
           var _func = function(params) {
@@ -33,19 +33,19 @@
           else { $.prototype[ns][func] = _func; }
         })(func, funcs[func]);
       })(ns, namespaces[ns]);
-      
+
       return this;
     },
-    
+
     _make_request: function(ns, func, options, params) {
 
       var url = options.url;
       var q_string = "";
-      
+
       if(options.auth_req && this.options.proxy === false) {
         throw("function " + ns + "/" + func + " requires authentication, and must use a proxy");
       }
-      
+
       if(options.required) {
         if(typeof params === "undefined") throw("function " + ns + "/" + func + " has required params");
         var req = options.required;
@@ -63,16 +63,16 @@
           }
         }
       }
-      
-      
+
+
       params = params || {};
-      
+
       var user_cb = params["callback"] || function(data, meta){/*alert("do something by default: " + data);*/};
       var user_error = params["error"] || function(data, meta){/*alert("something errored out");*/};
       var _this = this;
       var _options = options;
       var scope = params["cb_scope"] || window;
-      
+
       var cb_id = $["_callbacks"].push({"success":function(data) {
           var meta = {};
           if(_options.meta) {
@@ -82,7 +82,7 @@
               }
             }
           }
-          
+
           if(_options.root && data.hasOwnProperty(_options.root)) data = data[_options.root];
           if(!data.error) {
             try {
@@ -97,12 +97,12 @@
             user_error.call(scope, data.error);
           }
         _this._gc_jsonp(cb_id);
-        
+
       },"error":function() {
-        
+
         user_error.call(scope);
       }}) - 1;
-      
+
       $["_callbacks"]['_'+cb_id] = $["_callbacks"][cb_id];
       //params["callback"] = _this._name+"._callbacks["+cb_id+"].success";
       params["callback"] = _this._name+"._callbacks._"+cb_id+".success";
@@ -120,35 +120,34 @@
       else {
         q_string = "?callback="+encodeURIComponent(params["callback"]);
       }
-      
+
       url += q_string;
-      
+
       this._log(url);
       //this._log(TWITTER._callbacks[cb_id].success.toString());
       this._jsonp_call(url, cb_id);
-      
+
       return this;
-      
+
     },
     _log: function(msg) {
       try{
       if(console) console.log(msg);
       }catch(ex) { /*alert(msg);*/ }
     },
-    
+
     _jsonp_call: function(url, cb_id) {
-    
+
       var s = document.createElement("script");
       s.setAttribute("src", url);
       s.setAttribute("type", "text/javascript");
       s.setAttribute("id", this._name+"_script_"+cb_id);
-      
+
       var head = document.getElementsByTagName("head")[0];
       var error = $["_callbacks"][cb_id].error;
       // Attach handlers for all browsers
       var _cb_id = cb_id;
       var _this = this;
-      
       s.onload = s.onreadystatechange = function(){
         if ( !$["_callbacks"][_cb_id].done && (!this.readyState ||
           this.readyState == "loaded" || this.readyState == "complete") ) {
@@ -161,22 +160,23 @@
           }, 100);
         }
       };
-      
+
       s.onerror = function() {
         _this._gc_jsonp(_cb_id);
         error();
       }
-
       head.appendChild(s);
-      
+
       $["_callbacks"][cb_id].timer = setTimeout(function() {
-        $["_callbacks"][_cb_id].error();
-        _this._gc_jsonp(_cb_id, true);
+        if($["_callbacks"][_cb_id].error) {
+          $["_callbacks"][_cb_id].error();
+          _this._gc_jsonp(_cb_id, true);
+        }
       }, this.options.timeout);
-      
+
       return this;
     },
-    
+
     _gc_jsonp: function(cb_id, timeout) {
       $["_callbacks"][cb_id].done = true;
       if(!timeout) clearTimeout($["_callbacks"][cb_id].timer)
@@ -189,7 +189,7 @@
       }
       delete $["_callbacks"]["_"+cb_id];
     },
-    
+
     options:{
       format: "json",
       proxy: false,
@@ -199,7 +199,7 @@
       "search": {
         "search": {
           auth_req: false,
-          url:"http://search.twitter.com/search.format", 
+          url:"http://search.twitter.com/search.format",
           required:{"q":0},
           takes_params: true,
           root: "results",
